@@ -9,4 +9,4 @@ docker run -it --rm -v /data:/data --privileged \
      -e MKISO_COUNTRYCODE="ro" \
      -e MKISO_ROOT_PASSWORD="root" \
      -e MKISO_TIMEZONE="Europe\/Bucharest" \
-     hecristi/mkiso```
+     hecristi/mkiso:latest```
