@@ -48,9 +48,7 @@ wget -qO "${TMPDIR}/mini.iso" "http://ftp.${MKISO_COUNTRYCODE}.debian.org/debian
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Extract image
 show_info "Extracting image"
-mount -r -o loop "${TMPDIR}/mini.iso" "/mnt" || error_die "Could not mount image"
-rsync -a "/mnt/" "${TMPDIR}/extracted" || error_die "Could not extract image"
-umount "/mnt"
+xorriso -osirrox on -indev "${TMPDIR}/mini.iso" -extract / "${TMPDIR}/extracted" || error_die "Could not extract image"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customizing image
