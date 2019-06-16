@@ -48,7 +48,7 @@ wget -qO "${TMPDIR}/mini.iso" "http://ftp.${MKISO_COUNTRYCODE}.debian.org/debian
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Extract image
 show_info "Extracting image"
-xorriso -osirrox on -indev "${TMPDIR}/mini.iso" -extract / "${TMPDIR}/extracted" || error_die "Could not extract image"
+xorriso -osirrox on -indev "${TMPDIR}/mini.iso" -extract / "${TMPDIR}/extracted" &>>"${TMPDIR}/xorriso.log" || error_die "Could not extract image"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customizing image
@@ -105,6 +105,6 @@ popd
 show_info "Repacking image"
 xorriso -as mkisofs -o "/data/debian-installer-$(date +%F-%H_%M).iso" -c "boot.cat" -J -joliet-long \
 	-eltorito-alt-boot -e "boot/grub/efi.img" -no-emul-boot \
-	"${TMPDIR}/extracted" -- &>"${TMPDIR}/xorriso.log" || error_die "Could not repack image"
+	"${TMPDIR}/extracted" -- &>>"${TMPDIR}/xorriso.log" || error_die "Could not repack image"
 
 show_info "Done"
