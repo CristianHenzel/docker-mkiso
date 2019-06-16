@@ -9,6 +9,6 @@ RUN	apt-get update && \
 		xorriso && \
 	mkdir /data
 
-COPY	./app /var/app
+COPY	. /var/app
 
 ENTRYPOINT ["/var/app/mkiso.sh"]
