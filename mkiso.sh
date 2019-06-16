@@ -88,19 +88,6 @@ zcat "${TMPDIR}/extracted/initrd.gz" | cpio --quiet -i -d || error_die "Could no
 
 # Add custom data
 cp "/var/app/preseed.cfg" "${TMPDIR}/initrd/preseed.cfg" || error_die "Could not copy preseed"
-cat <<-EOF > "${TMPDIR}/initrd/installer.sh" || error_die "Could not write installer.sh"
-	#!/bin/sh
-
-	# Allow ssh logins for root
-	sed -i "s/#PermitRoot.*/PermitRootLogin yes/" /target/etc/ssh/sshd_config
-
-	# Remove grub boot delay
-	sed -i "s/GRUB_TIMEOUT=.*$/GRUB_TIMEOUT=0/" /target/etc/default/grub
-
-	# Recreate grub config
-	in-target update-grub
-EOF
-chmod +x "${TMPDIR}/initrd/installer.sh" || error_die "Could not make installer.sh executable"
 
 mkdir -p "${TMPDIR}/initrd/usr/share/debootstrap/scripts" || error_die "Could not create debootstrap scripts directory"
 ln -sf "sid" "${TMPDIR}/initrd/usr/share/debootstrap/scripts/testing" || error_die "Could not create testing script link"
