@@ -9,7 +9,6 @@ Green='\033[0;32m'	# Green
 
 error_die () {
 	echo -e "${Red}ERROR:${Color_Off} $1"
-	[ "$(ls -A /mnt)" ] && umount "/mnt"
 	exit 1
 }
 
@@ -75,10 +74,11 @@ popd
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customizing EFI
 show_info "Customizing EFI"
-mount -o loop "${TMPDIR}/extracted/boot/grub/efi.img" "/mnt/" || error_die "Could not mount EFI image"
-GRUBCFG_OFFSET=$(grep -aob "/.disk/info" "/mnt/efi/boot/bootx64.efi" | cut -d: -f1)
-echo "/mkiso.env " | dd of="/mnt/efi/boot/bootx64.efi" bs=1 seek=${GRUBCFG_OFFSET} count=11 conv=notrunc 2>/dev/null || error_die "Could not update efi grub.cfg"
-umount "/mnt"
+mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" ::efi/boot/bootx64.efi "${TMPDIR}/bootx64.efi" || error_die "Could not extract efi.img"
+mdel -i "${TMPDIR}/extracted/boot/grub/efi.img" ::efi/boot/bootx64.efi || error_die "Could not remove old efi.img"
+GRUBCFG_OFFSET=$(grep -aob "/.disk/info" "/${TMPDIR}/bootx64.efi" | cut -d: -f1)
+echo "/mkiso.env " | dd of="/${TMPDIR}/bootx64.efi" bs=1 seek=${GRUBCFG_OFFSET} count=11 conv=notrunc 2>/dev/null || error_die "Could not update efi grub.cfg"
+mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" "${TMPDIR}/bootx64.efi" ::efi/boot/bootx64.efi || error_die "Could not replace efi.img"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customize initrd
