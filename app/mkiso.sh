@@ -13,6 +13,16 @@ error_die () {
 	exit 1
 }
 
+file_download () {
+	local URL; URL=$1
+	local FILE; FILE=$2
+	echo -n "       "
+	wget --progress=dot -O $FILE $URL 2>&1 | grep --line-buffered "%" | \
+		sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b\b\b\b\b (%4s).", $2)}'
+	echo
+}
+
+
 popd () {
 	command popd "$@" > /dev/null
 }
@@ -22,7 +32,7 @@ pushd () {
 }
 
 show_info () {
-	echo -e "${Green}$(date -R) ---${Color_Off} $1."
+	echo -e ${2} "${Green}$(date -R) ---${Color_Off} $1."
 }
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,8 +52,8 @@ mkdir "${TMPDIR}/extracted" "${TMPDIR}/initrd"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Download mini.iso
-show_info "Downloading mini.iso"
-wget -qO "${TMPDIR}/mini.iso" "http://ftp.${MKISO_COUNTRYCODE}.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso"
+show_info "Downloading mini.iso" -n
+file_download "http://ftp.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso" "${TMPDIR}/mini.iso"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Extract image
