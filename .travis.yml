@@ -12,7 +12,8 @@ before_deploy:
 deploy:
   api_key:
     secure: F3XyOekWMMnZMih67Umk9EbigFppgp8+/tnUutjk0wvdCshSbyjuFYW2+WmhVIOq6JoXxpxrin2BnTBIIa1895YRdINC7HSfZaMmSOSH9dLpDWOLkM4sRZBnCdRFqjrJVF6IJcruJN3qv00lT1UBdCJszFI+AkwH1RoUV9XEy+Yu4xo7cDdzrIfvTVvhIQdwv2COkIGWfkWp5EDhOr+WyTZFOcg+vXJ83xcIjuHBVnhkrAVbtM4bGEidI5hpWLtBJgLbrAgVmWScejrMpPBtCr5Ff631Q3onNvHwys6M4ma+tnL0cM0zWBeLetboojg//EL9chzmn4XfIBZ5KJ5PQoO+UyJeYcMQ5MCuh8QdC91Gongu0DLfTUdAwKG/2iMRPfrvodT09gFflM2Z0MjzHZxNEraOPX6QdovRd1ndyRW4cBatYcxpy6SENkKSu9XoFXqZMgWcr07qQ0aQItPAeROem3/llP5qmoGfk8HMG9SR6z/sxWjUzw2qksGJF1n3wiKSt+g5lqgHrVLiuN2VRTXgElsF8NYdTfG4VQocwswCtZNJy7qs3iQrtf2lNjxP46YWPGpSLGq88d8C3plzA0mI27+XtDimTBViP6nwZa0gAw9FlfAQLjJi0GSjiAfPilYYR/IAxw9/RuwzvaLqwSPrij5NLZhKQSvC/3I7Ctc=
-  file: "/data/debian-devel.iso"
+  file: "/data/debian-*"
+  file_glob: true
   on:
     repo: CristianHenzel/docker-mkiso
   provider: releases
