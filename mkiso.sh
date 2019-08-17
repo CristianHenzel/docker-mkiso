@@ -76,7 +76,7 @@ popd
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Repack image
 echo "${SPACER} Repacking image"
-xorriso -as mkisofs -o "/data/debian-installer-$(date +%F-%H_%M).iso" -c "boot.cat" -J -joliet-long \
+xorriso -as mkisofs -o "/data/debian-devel.iso" -c "boot.cat" -J -joliet-long \
 	-eltorito-alt-boot -e "boot/grub/efi.img" -no-emul-boot \
 	"${TMPDIR}/extracted" -- &>>"${TMPDIR}/xorriso.log"
 
