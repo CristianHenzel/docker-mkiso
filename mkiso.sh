@@ -2,17 +2,18 @@
 
 set -exo pipefail
 
-SPACER="------------------------------"
-DEB_ISO_URL="http://ftp.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso"
-
 if [ "${1}" != "entry" ]; then
 	/var/app/mkiso.sh "entry" 2>&1 | ts
 	exit 0
 fi
 
+SPACER="------------------------------"
+DEB_ISO_URL="http://ftp.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso"
+
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Replace env variables
-while IFS='=' read -r name value; do
+IFS="="
+while read -r name value; do
 	if [[ "${name}" = "MKISO_"* ]]; then
 		echo "${name}=\"${value}\"" >> /tmp/mkiso.env
 		VARNAME=$(echo "${name}" | cut -d_ -f2-)
