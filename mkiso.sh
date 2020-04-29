@@ -52,10 +52,12 @@ popd
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customizing EFI
 echo "${SPACER} Customizing EFI"
-mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" ::efi/debian/grub.cfg "${TMPDIR}/bootx64.efi"
+mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" ::efi/debian/grub.cfg "${TMPDIR}/grub.cfg"
 mdel -i "${TMPDIR}/extracted/boot/grub/efi.img" ::efi/debian/grub.cfg
-sed -i "s/mkiso.env/.disk\/info/" "${TMPDIR}/bootx64.efi"
-mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" "${TMPDIR}/bootx64.efi" ::efi/debian/grub.cfg
+sed -i "s/.disk\/info/mkiso.env/" "${TMPDIR}/grub.cfg"
+mcopy -i "${TMPDIR}/extracted/boot/grub/efi.img" "${TMPDIR}/grub.cfg" ::efi/debian/grub.cfg
+mkdir -p "${TMPDIR}/extracted/EFI/debian"
+cp "${TMPDIR}/grub.cfg" "${TMPDIR}/extracted/EFI/debian/grub.cfg"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Customize initrd
