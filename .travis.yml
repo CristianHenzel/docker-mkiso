@@ -3,9 +3,10 @@ services:
 - docker
 before_install:
 - docker build -t ch/mkiso .
-- docker run -v /data:/data -e MKISO_ADD_PACKAGES="cifs-utils ctop curl docker.io
-  docker-compose git htop make nano openssh-server python3-pip wget" -e MKISO_COUNTRYCODE="ro"
-  -e MKISO_ROOT_PASSWORD="root" -e MKISO_TIMEZONE="Europe\/Bucharest" ch/mkiso
+- docker run -v /data:/data -e MKISO_ADD_PACKAGES="cifs-utils ctop curl docker.io docker-compose git htop make nano openssh-server python3-pip wget" -e MKISO_COUNTRYCODE="ro"
+  -e MKISO_ROOT_PASSWORD="root" -e MKISO_TIMEZONE="Europe\/Bucharest" -e MKISO_FILE_NAME="debian-dev.iso" ch/mkiso
+- docker run -v /data:/data -e MKISO_ADD_PACKAGES="curl git nano" -e MKISO_COUNTRYCODE="ro"
+  -e MKISO_ROOT_PASSWORD="root" -e MKISO_TIMEZONE="Europe\/Bucharest" -e MKISO_FILE_NAME="debian-min.iso" ch/mkiso
 before_deploy:
 - export TRAVIS_TAG=$(date +'%Y%m%d-%H%M%S')-$(git log --format=%h -1)
 - git tag $TRAVIS_TAG
