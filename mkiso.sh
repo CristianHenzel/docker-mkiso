@@ -8,6 +8,7 @@ if [ "${1}" != "entry" ]; then
 fi
 
 SPACER="------------------------------"
+MKISO_FILE_NAME="${MKISO_FILE_NAME:-debian-auto.iso}"
 DEB_ISO_URL="http://ftp.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -76,7 +77,7 @@ popd
 # --------------------------------------------------------------------------------------------------------------------------------------------------
 # Repack image
 echo "${SPACER} Repacking image"
-xorriso -as mkisofs -o "/data/debian-devel.iso" -c "boot.cat" -J -joliet-long \
+xorriso -as mkisofs -o "/data/${MKISO_FILE_NAME}" -c "boot.cat" -J -joliet-long \
 	-eltorito-alt-boot -e "boot/grub/efi.img" -no-emul-boot \
 	"${TMPDIR}/extracted" -- &>>"${TMPDIR}/xorriso.log"
 
