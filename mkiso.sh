@@ -8,6 +8,7 @@ if [ "${1}" != "entry" ]; then
 fi
 
 SPACER="------------------------------"
+MKISO_FILE_NAME="${MKISO_FILE_NAME:-debian-auto.iso}"
 DEB_ISO_URL="http://ftp.debian.org/debian/dists/stable/main/installer-amd64/current/images/netboot/gtk/mini.iso"
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------
