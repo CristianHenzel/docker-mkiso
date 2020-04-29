@@ -15,3 +15,7 @@ docker run -it --rm -v /data:/data \
 ## TODO:
 	- Default values for all env variables
 	- Replace more of the fixed values with variables
+
+## Hint:
+
+Proxmox needs Display set to 'VirtIO-GPU' to work.
