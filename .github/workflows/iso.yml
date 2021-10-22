@@ -1,0 +1,41 @@
+name: "Create ISO"
+
+on:
+  schedule:
+    - cron: '0 0,12 * * *'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d-%H%M%S')"
+
+      - name: Create min ISO
+        run: |
+          docker run -i --rm -v /data:/data \
+          -e MKISO_ADD_PACKAGES="curl nano openssh-server" \
+          -e MKISO_COUNTRYCODE="ro" \
+          -e MKISO_FILE_NAME="debian-min.iso" \
+          -e MKISO_ROOT_PASSWORD="root" \
+          -e MKISO_TIMEZONE="Europe\/Bucharest" \
+          ghcr.io/cristianhenzel/docker-mkiso:latest
+
+      - name: Create dev ISO
+        run: |
+          docker run -i --rm -v /data:/data \
+          -e MKISO_ADD_PACKAGES="cifs-utils ctop curl docker.io docker-compose git htop make nano openssh-server python3-pip wget" \
+          -e MKISO_COUNTRYCODE="ro" \
+          -e MKISO_FILE_NAME="debian-dev.iso" \
+          -e MKISO_ROOT_PASSWORD="root" \
+          -e MKISO_TIMEZONE="Europe\/Bucharest" \
+          ghcr.io/cristianhenzel/docker-mkiso:latest
+
+      - name: Release ISOs
+        uses: softprops/action-gh-release@v1
+        with:
+          files: /data/*.iso
+          name: ${{ steps.date.outputs.date }}
+          tag_name: ${{ steps.date.outputs.date }}
